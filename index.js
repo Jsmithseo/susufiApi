@@ -1,20 +1,17 @@
-{
-  "name": "portfolio-jerga-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "populate": "node populate/index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1",
-    "mongoose": "^5.9.13"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.3"
+const express = require('express');
+const server = express();
+const config = require('./config/dev');
+
+const mongoose = require('mongoose');
+mongoose.connect(config.DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+}, (err) => {
+  if (err) { console.error(err); }
+  else {
+    console.log('Connected to DB!');
   }
-}
+})
+
+server.use('/api/v1/portfolios', require('./routes/portfolios'));
